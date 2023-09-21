@@ -26,3 +26,18 @@ body {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.05);
 }
+
+.bg-success, .bg-danger {
+    color: white !important;
+}
+
+.card-body {
+    text-align: center;
+}
+
+.tropy-endscreen {
+    height: 600px;
+    width: auto;
+    object-fit: contain;
+    padding-left: 180px;
+}
