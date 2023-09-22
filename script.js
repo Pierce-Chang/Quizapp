@@ -70,30 +70,25 @@ function init() {
 
 function showQuestion() {
 
-    if (currentQuestion >= questions.length) {
-        //show end screen
-        document.getElementById('rightAnswers').innerHTML = rightQuestions;
-        document.getElementById('amountOfQuestions').innerHTML = currentQuestion;
-        document.getElementById('endScreen').style = '';
-        document.getElementById('questionBody').style = 'display: none';
-        document.getElementById('header-image').src = 'img/tropy.png';
-        document.getElementById('header-image').classList.add('tropy-endscreen');
-    } else { //show next question
-        let percent =  (currentQuestion + 1) / questions.length;
-        percent = Math.round(percent * 100);
-        document.getElementById('progress-bar').innerHTML = `${percent} %`;
-        document.getElementById('progress-bar').style = `width: ${percent}%`;
-
-        let question = questions[currentQuestion];
-
-        document.getElementById('question-number').innerHTML = currentQuestion + 1;
-        document.getElementById('questiontext').textContent = question['question'];
-
-        for (let i = 1; i <= 4; i++) {
-            const answer = question[`answer_${i}`];
-            document.getElementById(`answer_${i}`).textContent = answer;
-        }
+    if (gameIsOver()) {
+        showEndScreen();
+    } else {
+        updateProgressBar();
+        updateToNextQuestion();
     }
+}
+
+function gameIsOver() {
+    return currentQuestion >= questions.length;
+}
+
+function showEndScreen() {
+            document.getElementById('rightAnswers').innerHTML = rightQuestions;
+            document.getElementById('amountOfQuestions').innerHTML = currentQuestion;
+            document.getElementById('endScreen').style = '';
+            document.getElementById('questionBody').style = 'display: none';
+            document.getElementById('header-image').src = 'img/tropy.png';
+            document.getElementById('header-image').classList.add('tropy-endscreen');
 }
 
 function answer(selection) {  // selection is the parameter for the answer_i variable out of html code
@@ -113,6 +108,26 @@ function answer(selection) {  // selection is the parameter for the answer_i var
     document.getElementById('next-button').disabled = false;
 }
 
+function updateProgressBar() {
+    let percent =  (currentQuestion + 1) / questions.length;
+    percent = Math.round(percent * 100);
+    document.getElementById('progress-bar').innerHTML = `${percent} %`;
+    document.getElementById('progress-bar').style = `width: ${percent}%`;
+}
+
+function updateToNextQuestion() {
+    updateProgressBar();
+    let question = questions[currentQuestion];
+
+    document.getElementById('question-number').innerHTML = currentQuestion + 1;
+    document.getElementById('questiontext').textContent = question['question'];
+
+    for (let i = 1; i <= 4; i++) {
+        const answer = question[`answer_${i}`];
+        document.getElementById(`answer_${i}`).textContent = answer;
+    }
+}
+
 function nextQuestion() {
     currentQuestion++;
     document.getElementById('next-button').disabled = true;
@@ -129,4 +144,14 @@ function resetAnswerButtons() {
     document.getElementById('answer_3').parentNode.classList.remove('bg-success');
     document.getElementById('answer_4').parentNode.classList.remove('bg-danger');
     document.getElementById('answer_4').parentNode.classList.remove('bg-success');
+}
+
+function restartGame() {
+    document.getElementById('header-image').src = 'img/brainbg.jpg';
+    document.getElementById('questionBody').style = '';
+    document.getElementById('endScreen').style = 'display: none';
+    document.getElementById('header-image').classList.remove('tropy-endscreen');
+    currentQuestion = 0;
+    rightQuestions = 0;
+    init();
 }

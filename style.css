@@ -41,3 +41,9 @@ body {
     object-fit: contain;
     padding-left: 180px;
 }
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
